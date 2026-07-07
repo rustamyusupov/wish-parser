@@ -17,7 +17,7 @@ export const openDb = (path: string) => {
     selectWishes: () => selectWishes.all() as WishRow[],
     insertPrice: (wishId: number, amount: number, currencyCode: string) => {
       const currency = selectCurrencyId.get(currencyCode) as { id: number } | undefined;
-      if (!currency) throw new Error(`Неизвестная валюта: ${currencyCode}`);
+      if (!currency) throw new Error(`unknown currency: ${currencyCode}`);
       insertPrice.run(wishId, amount, currency.id);
     },
     close: () => db.close(),
