@@ -18,6 +18,8 @@ export type LdOffer = {
 
 export type Engine = 'chromium' | 'webkit';
 
+export type Outcome = 'saved' | 'unavailable' | 'failed';
+
 export type ShopifyProduct = {
   variants: { id: number; price: number; available: boolean }[];
 };

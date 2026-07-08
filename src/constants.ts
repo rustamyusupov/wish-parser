@@ -14,3 +14,11 @@ export const BROWSER_OPTIONS = {
 export const PAGE_GOTO_TIMEOUT_MS = 60_000;
 
 export const PAGE_SETTLE_MS = 7_000;
+
+export const RETRY_ATTEMPTS = 3;
+
+export const RETRY_BACKOFF_MS = 15_000;
+
+export const PAUSE_MS = 10_000;
+
+export const PAUSE_AVITO_MS = 45_000;

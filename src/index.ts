@@ -1,4 +1,4 @@
-import { openDb } from './db.js';
+import { run } from './run.js';
 
 const dbPath = process.env.WISH_PARSER_DB_PATH;
 if (!dbPath) {
@@ -6,6 +6,4 @@ if (!dbPath) {
   process.exit(1);
 }
 
-const db = openDb(dbPath);
-console.log(`wish-parser: ${db.selectWishes().length} wishes in database`);
-db.close();
+await run(dbPath);
