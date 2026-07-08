@@ -4,6 +4,7 @@ import type { WishRow } from './types.js';
 
 export const openDb = (path: string) => {
   const db = new Database(path, { fileMustExist: true });
+
   db.pragma('busy_timeout = 5000');
   db.pragma('foreign_keys = ON');
 
@@ -17,7 +18,9 @@ export const openDb = (path: string) => {
     selectWishes: () => selectWishes.all() as WishRow[],
     insertPrice: (wishId: number, amount: number, currencyCode: string) => {
       const currency = selectCurrencyId.get(currencyCode) as { id: number } | undefined;
+
       if (!currency) throw new Error(`unknown currency: ${currencyCode}`);
+
       insertPrice.run(wishId, amount, currency.id);
     },
     close: () => db.close(),

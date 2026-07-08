@@ -16,6 +16,7 @@ const ADAPTER_BY_HOST: Record<string, Adapter> = {
 
 export const adapterFor = (link: string) => {
   const { hostname } = new URL(link);
+
   return Object.entries(ADAPTER_BY_HOST).find(
     ([host]) => hostname === host || hostname.endsWith(`.${host}`),
   )?.[1];
