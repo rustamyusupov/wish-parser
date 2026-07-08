@@ -22,3 +22,5 @@ export const RETRY_BACKOFF_MS = 15_000;
 export const PAUSE_MS = 10_000;
 
 export const PAUSE_AVITO_MS = 45_000;
+
+export const USAGE = 'usage: wish-parser [--only <wish id | host substring>] [--dry-run] [--help]';

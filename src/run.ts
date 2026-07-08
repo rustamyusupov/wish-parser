@@ -5,7 +5,7 @@ import { PAUSE_AVITO_MS, PAUSE_MS, RETRY_ATTEMPTS, RETRY_BACKOFF_MS } from './co
 import { openDb } from './db.js';
 import { closeBrowsers } from './lib/browser.js';
 import { withRetry } from './lib/retry.js';
-import type { Outcome, WishRow } from './types.js';
+import type { Outcome, RunOptions, WishRow } from './types.js';
 
 const logWish = ({ id, name }: WishRow, message: string) =>
   console.log(`[${id}] ${name}: ${message}`);
@@ -17,7 +17,10 @@ const failWish = ({ id, name }: WishRow, reason: string): Outcome => {
 
 const pauseFor = ({ link }: WishRow) => (link.includes('avito.ru') ? PAUSE_AVITO_MS : PAUSE_MS);
 
-const processWish = async (db: ReturnType<typeof openDb>, wish: WishRow): Promise<Outcome> => {
+const processWish = async (
+  savePrice: (wishId: number, amount: number, currencyCode: string) => void,
+  wish: WishRow,
+): Promise<Outcome> => {
   const adapter = adapterFor(wish.link);
 
   if (!adapter) return failWish(wish, `no adapter for ${new URL(wish.link).hostname}`);
@@ -30,7 +33,7 @@ const processWish = async (db: ReturnType<typeof openDb>, wish: WishRow): Promis
       return 'unavailable';
     }
 
-    db.insertPrice(wish.id, result.amount, result.currencyCode);
+    savePrice(wish.id, result.amount, result.currencyCode);
     logWish(wish, `${result.amount} ${result.currencyCode}`);
 
     return 'saved';
@@ -55,18 +58,22 @@ const summarize = (outcomes: Outcome[]) => {
   return stats;
 };
 
-export const run = async (dbPath: string) => {
+export const run = async (
+  dbPath: string,
+  { filter = () => true, dryRun = false }: RunOptions = {},
+) => {
   const db = openDb(dbPath);
+  const savePrice = dryRun ? () => {} : db.insertPrice;
 
   try {
-    const wishes = db.selectWishes();
+    const wishes = db.selectWishes().filter(filter);
 
-    console.log(`run started: ${wishes.length} wishes`);
+    console.log(`run started: ${wishes.length} wishes${dryRun ? ' (dry run)' : ''}`);
 
     const outcomes: Outcome[] = [];
 
     for (const [index, wish] of wishes.entries()) {
-      outcomes.push(await processWish(db, wish));
+      outcomes.push(await processWish(savePrice, wish));
 
       if (index < wishes.length - 1) await sleep(pauseFor(wish));
     }

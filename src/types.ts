@@ -20,6 +20,11 @@ export type Engine = 'chromium' | 'webkit';
 
 export type Outcome = 'saved' | 'unavailable' | 'failed';
 
+export type RunOptions = {
+  filter?: (wish: WishRow) => boolean;
+  dryRun?: boolean;
+};
+
 export type ShopifyProduct = {
   variants: { id: number; price: number; available: boolean }[];
 };

@@ -1,10 +1,15 @@
+import { exitWithError, matchesOnly, parseCli, printUsage } from './cli.js';
+import { requireEnv } from './lib/env.js';
 import { run } from './run.js';
 
-const dbPath = process.env.WISH_PARSER_DB_PATH;
+const main = async () => {
+  const { help, only, 'dry-run': dryRun } = parseCli();
 
-if (!dbPath) {
-  console.error('WISH_PARSER_DB_PATH is not set');
-  process.exit(1);
-}
+  if (help) return printUsage();
 
-await run(dbPath);
+  const dbPath = requireEnv('WISH_PARSER_DB_PATH');
+
+  await run(dbPath, { filter: matchesOnly(only), dryRun });
+};
+
+await main().catch(exitWithError);
