@@ -13,11 +13,10 @@ export type LdOffer = {
   price?: string | number;
   lowPrice?: string | number;
   priceCurrency?: string;
+  url?: string;
 };
 
-export type LdProduct = {
-  offers?: LdOffer | LdOffer[];
-};
+export type Engine = 'chromium' | 'webkit';
 
 export type ShopifyProduct = {
   variants: { id: number; price: number; available: boolean }[];

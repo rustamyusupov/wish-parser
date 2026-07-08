@@ -3,5 +3,14 @@ export const USER_AGENT =
 
 export const FETCH_TIMEOUT_MS = 20_000;
 
-// Shopify /products/<handle>.js endpoint has no currency field, tons.bike sells in EUR
 export const SHOPIFY_CURRENCY_CODE = 'EUR';
+
+export const BROWSER_OPTIONS = {
+  locale: 'de-DE',
+  timezoneId: 'Europe/Berlin',
+  viewport: { width: 1280, height: 800 },
+};
+
+export const PAGE_GOTO_TIMEOUT_MS = 60_000;
+
+export const PAGE_SETTLE_MS = 7_000;
