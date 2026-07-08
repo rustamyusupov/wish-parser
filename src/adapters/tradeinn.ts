@@ -1,6 +1,6 @@
-import { fetchPage } from '../lib/http.js';
-import { extractOffers, priceFromOffers } from '../lib/jsonld.js';
-import type { Adapter } from '../types.js';
+import { fetchPage } from '#lib/http';
+import { extractOffers, priceFromOffers } from '#lib/jsonld';
+import type { Adapter } from '#types';
 
 export const tradeinn: Adapter = async (link) => {
   const response = await fetchPage(link);

@@ -1,15 +1,17 @@
-import { exitWithError, matchesOnly, parseCli, printUsage } from './cli.js';
-import { requireEnv } from './lib/env.js';
-import { run } from './run.js';
+import { buildApp } from './app.ts';
 
-const main = async () => {
-  const { help, only, 'dry-run': dryRun } = parseCli();
+const app = await buildApp();
 
-  if (help) return printUsage();
+const port = Number(process.env.PORT ?? 8080);
+const host = process.env.HOST ?? '0.0.0.0';
 
-  const dbPath = requireEnv('WISH_PARSER_DB_PATH');
+for (const signal of ['SIGINT', 'SIGTERM'] as const) {
+  process.once(signal, () => void app.close());
+}
 
-  await run(dbPath, { filter: matchesOnly(only), dryRun });
-};
-
-await main().catch(exitWithError);
+try {
+  await app.listen({ port, host });
+} catch (error) {
+  app.log.error(error);
+  process.exit(1);
+}

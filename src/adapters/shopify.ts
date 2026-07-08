@@ -1,6 +1,11 @@
-import { SHOPIFY_CURRENCY_CODE } from '../constants.js';
-import { fetchPage } from '../lib/http.js';
-import type { Adapter, ShopifyProduct } from '../types.js';
+import { fetchPage } from '#lib/http';
+import type { Adapter } from '#types';
+
+const SHOPIFY_CURRENCY_CODE = 'EUR';
+
+type ShopifyProduct = {
+  variants: { id: number; price: number; available: boolean }[];
+};
 
 export const shopify: Adapter = async (link) => {
   const url = new URL(link);

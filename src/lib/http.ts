@@ -1,4 +1,6 @@
-import { FETCH_TIMEOUT_MS, USER_AGENT } from '../constants.js';
+import { USER_AGENT } from '#constants';
+
+const FETCH_TIMEOUT_MS = 20_000;
 
 export const fetchPage = (url: string) =>
   fetch(url, {

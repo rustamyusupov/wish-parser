@@ -1,5 +1,5 @@
-import { fetchPage } from '../lib/http.js';
-import type { Adapter } from '../types.js';
+import { fetchPage } from '#lib/http';
+import type { Adapter } from '#types';
 
 const PRICE_RE = /data-marker="item-view\/item-price"[^>]*>([^<]+)/;
 const CURRENCY_RE = /itemprop="priceCurrency" content="([A-Z]{3})"/i;

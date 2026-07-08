@@ -1,23 +1,13 @@
-FROM node:24-slim AS build
+FROM node:24-slim
 
 WORKDIR /app
 
-COPY package.json package-lock.json ./
-RUN npm ci --ignore-scripts --no-fund --no-audit
-
-COPY tsconfig.json ./
-COPY src ./src
-RUN npm run build
-
-FROM node:24-slim AS runtime
-
-WORKDIR /app
-
+ENV NODE_ENV=production
+ENV PORT=8080
 ENV PLAYWRIGHT_BROWSERS_PATH=/ms-playwright
 
 COPY package.json package-lock.json ./
 RUN npm ci --omit=dev --ignore-scripts --no-fund --no-audit \
-  && npm rebuild better-sqlite3 \
   && npm cache clean --force
 
 RUN npx playwright install --with-deps chromium webkit \
@@ -25,6 +15,8 @@ RUN npx playwright install --with-deps chromium webkit \
   && apt-get install -y --no-install-recommends ca-certificates glib-networking \
   && rm -rf /var/lib/apt/lists/*
 
-COPY --from=build /app/dist ./dist
+COPY src ./src
 
-CMD ["node", "dist/index.js"]
+EXPOSE 8080
+
+CMD ["node", "src/index.ts"]

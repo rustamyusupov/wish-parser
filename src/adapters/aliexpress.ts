@@ -1,6 +1,6 @@
-import { PAGE_GOTO_TIMEOUT_MS, PAGE_SETTLE_MS } from '../constants.js';
-import { getPage } from '../lib/browser.js';
-import type { Adapter } from '../types.js';
+import { PAGE_GOTO_TIMEOUT_MS, PAGE_SETTLE_MS } from '#constants';
+import { getPage } from '#lib/browser';
+import type { Adapter } from '#types';
 
 const PRICE_RE = /\d[\d\s]{0,12}₽/;
 const UNAVAILABLE_RE = /нет в наличии|товар (недоступен|закончился|не найден)/i;

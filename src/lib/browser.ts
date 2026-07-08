@@ -1,7 +1,14 @@
 import { chromium, webkit, type BrowserContext } from 'playwright';
 
-import { BROWSER_OPTIONS, USER_AGENT } from '../constants.js';
-import type { Engine } from '../types.js';
+import { USER_AGENT } from '#constants';
+
+type Engine = 'chromium' | 'webkit';
+
+const BROWSER_OPTIONS = {
+  locale: 'de-DE',
+  timezoneId: 'Europe/Berlin',
+  viewport: { width: 1280, height: 800 },
+};
 
 const contexts = new Map<Engine, BrowserContext>();
 

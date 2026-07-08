@@ -1,9 +1,9 @@
-import type { Adapter } from '../types.js';
-import { aliexpress } from './aliexpress.js';
-import { avito } from './avito.js';
-import { bike24 } from './bike24.js';
-import { shopify } from './shopify.js';
-import { tradeinn } from './tradeinn.js';
+import type { Adapter } from '#types';
+import { aliexpress } from './aliexpress.ts';
+import { avito } from './avito.ts';
+import { bike24 } from './bike24.ts';
+import { shopify } from './shopify.ts';
+import { tradeinn } from './tradeinn.ts';
 
 const ADAPTER_BY_HOST: Record<string, Adapter> = {
   'tradeinn.com': tradeinn,

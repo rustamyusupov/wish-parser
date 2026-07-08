@@ -1,7 +1,7 @@
-import { PAGE_GOTO_TIMEOUT_MS, PAGE_SETTLE_MS } from '../constants.js';
-import { getPage } from '../lib/browser.js';
-import { extractOffers, priceFromOffers } from '../lib/jsonld.js';
-import type { Adapter } from '../types.js';
+import { PAGE_GOTO_TIMEOUT_MS, PAGE_SETTLE_MS } from '#constants';
+import { getPage } from '#lib/browser';
+import { extractOffers, priceFromOffers } from '#lib/jsonld';
+import type { Adapter } from '#types';
 
 const PRICE_RE = /(\d[\d.]*,\d{2})\s*€/;
 
