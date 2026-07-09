@@ -1,5 +1,5 @@
 import { fetchPage } from '#lib/http';
-import { extractOffers, priceFromOffers } from '#lib/jsonld';
+import { extractOffers, nameFromLd, priceFromOffers } from '#lib/jsonld';
 import type { Adapter } from '#types';
 
 export const tradeinn: Adapter = async (link) => {
@@ -8,9 +8,10 @@ export const tradeinn: Adapter = async (link) => {
   if (response.status === 404) return { available: false };
   if (!response.ok) throw new Error(`tradeinn: HTTP ${response.status}`);
 
-  const price = priceFromOffers(extractOffers(await response.text()));
+  const html = await response.text();
+  const price = priceFromOffers(extractOffers(html));
 
   if (!price) throw new Error('tradeinn: price not found on page');
 
-  return { available: true, ...price };
+  return { available: true, ...price, name: nameFromLd(html) };
 };

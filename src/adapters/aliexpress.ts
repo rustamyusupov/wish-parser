@@ -4,6 +4,7 @@ import type { Adapter } from '#types';
 
 const PRICE_RE = /\d[\d\s]{0,12}₽/;
 const UNAVAILABLE_RE = /нет в наличии|товар (недоступен|закончился|не найден)/i;
+const TITLE_TAIL_RE = /\s*[-|]\s*aliexpress.*$/i;
 
 export const aliexpress: Adapter = async (link) => {
   const page = await getPage('chromium');
@@ -25,7 +26,13 @@ export const aliexpress: Adapter = async (link) => {
     const match = PRICE_RE.exec(text);
 
     if (match) {
-      return { available: true, amount: Number(match[0].replace(/\D/g, '')), currencyCode: 'RUB' };
+      const name = (await page.title()).replace(TITLE_TAIL_RE, '').trim() || undefined;
+      return {
+        available: true,
+        amount: Number(match[0].replace(/\D/g, '')),
+        currencyCode: 'RUB',
+        name,
+      };
     }
 
     if (UNAVAILABLE_RE.test(text)) return { available: false };

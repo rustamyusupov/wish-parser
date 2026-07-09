@@ -9,6 +9,7 @@ export const parseResult = z.discriminatedUnion('available', [
     available: z.literal(true),
     amount: z.number(),
     currencyCode: z.string(),
+    name: z.string().optional(),
   }),
   z.object({
     available: z.literal(false),
