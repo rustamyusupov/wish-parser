@@ -1,8 +1,4 @@
-import { chromium, webkit, type BrowserContext } from 'playwright';
-
-import { USER_AGENT } from '#constants';
-
-type Engine = 'chromium' | 'webkit';
+import { webkit, type BrowserContext } from 'playwright';
 
 const BROWSER_OPTIONS = {
   locale: 'de-DE',
@@ -10,31 +6,18 @@ const BROWSER_OPTIONS = {
   viewport: { width: 1280, height: 800 },
 };
 
-const contexts = new Map<Engine, BrowserContext>();
+let context: BrowserContext | undefined;
 
-export const getPage = async (engine: Engine) => {
-  let context = contexts.get(engine);
-
+export const getPage = async () => {
   if (!context) {
-    const browser = await (engine === 'chromium' ? chromium : webkit).launch({
-      args: engine === 'chromium' ? ['--disable-dev-shm-usage', '--no-sandbox'] : [],
-    });
-
-    context = await browser.newContext({
-      ...BROWSER_OPTIONS,
-      ...(engine === 'chromium' ? { userAgent: USER_AGENT } : {}),
-    });
-
-    contexts.set(engine, context);
+    const browser = await webkit.launch();
+    context = await browser.newContext(BROWSER_OPTIONS);
   }
 
   return context.newPage();
 };
 
-export const closeBrowsers = async () => {
-  for (const context of contexts.values()) {
-    await context.browser()?.close();
-  }
-
-  contexts.clear();
+export const closeBrowser = async () => {
+  await context?.browser()?.close();
+  context = undefined;
 };

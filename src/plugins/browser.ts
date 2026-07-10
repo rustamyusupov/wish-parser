@@ -1,10 +1,10 @@
 import fp from 'fastify-plugin';
 
-import { closeBrowsers } from '#lib/browser';
+import { closeBrowser } from '#lib/browser';
 
 export default fp(
   async (app) => {
-    app.addHook('onClose', () => closeBrowsers());
+    app.addHook('onClose', () => closeBrowser());
   },
   { name: 'browser' },
 );

@@ -10,10 +10,10 @@ COPY package.json package-lock.json ./
 RUN npm ci --omit=dev --ignore-scripts --no-fund --no-audit \
   && npm cache clean --force
 
-RUN npx playwright install --with-deps chromium webkit \
+RUN npx playwright install --with-deps webkit \
   && apt-get update \
   && apt-get install -y --no-install-recommends ca-certificates glib-networking \
-  && rm -rf /var/lib/apt/lists/*
+  && rm -rf /var/lib/apt/lists/* /usr/share/icons /usr/share/doc /usr/share/sounds
 
 COPY src ./src
 

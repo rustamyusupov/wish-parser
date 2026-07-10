@@ -6,7 +6,7 @@ import type { Adapter } from '#types';
 const PRICE_RE = /(\d[\d.]*,\d{2})\s*€/;
 
 export const bike24: Adapter = async (link) => {
-  const page = await getPage('webkit');
+  const page = await getPage();
 
   try {
     const response = await page.goto(link, {
