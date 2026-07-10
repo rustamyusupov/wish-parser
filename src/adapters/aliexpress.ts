@@ -43,10 +43,9 @@ export const aliexpress: Adapter = async (link) => {
       }
     }
 
-    if (page.url().includes('punish')) {
-      await page.context().clearCookies();
-      throw new Error('aliexpress: bot check page');
-    }
+    await page.context().clearCookies();
+
+    if (page.url().includes('punish')) throw new Error('aliexpress: bot check page');
 
     const text = await page.locator('body').innerText();
 
