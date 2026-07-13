@@ -2,11 +2,13 @@ import type { Adapter } from '#types';
 import { aliexpress } from './aliexpress.ts';
 import { avito } from './avito.ts';
 import { bike24 } from './bike24.ts';
+import { jsonld } from './jsonld.ts';
 import { shopify } from './shopify.ts';
-import { tradeinn } from './tradeinn.ts';
 
 const ADAPTER_BY_HOST: Record<string, Adapter> = {
-  'tradeinn.com': tradeinn,
+  'tradeinn.com': jsonld,
+  'plastinka.com': jsonld,
+  'doctorhead.ru': jsonld,
   'tons.bike': shopify,
   'avito.ru': avito,
   'ali.click': aliexpress,

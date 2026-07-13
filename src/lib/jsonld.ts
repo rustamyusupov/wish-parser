@@ -3,6 +3,7 @@ type LdOffer = {
   lowPrice?: string | number;
   priceCurrency?: string;
   url?: string;
+  availability?: string;
 };
 
 const LD_JSON_RE = /<script[^>]*type="application\/ld\+json"[^>]*>(.*?)<\/script>/gs;
