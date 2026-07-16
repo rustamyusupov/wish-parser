@@ -8,13 +8,23 @@ const BROWSER_OPTIONS = {
 
 let context: BrowserContext | undefined;
 
-export const getPage = async () => {
-  if (!context) {
-    const browser = await webkit.launch();
-    context = await browser.newContext(BROWSER_OPTIONS);
-  }
+const createContext = async () => {
+  const browser = await webkit.launch();
 
-  return context.newPage();
+  return browser.newContext(BROWSER_OPTIONS);
+};
+
+export const getPage = async () => {
+  context ??= await createContext();
+
+  try {
+    return await context.newPage();
+  } catch {
+    await closeBrowser();
+    context = await createContext();
+
+    return context.newPage();
+  }
 };
 
 export const closeBrowser = async () => {

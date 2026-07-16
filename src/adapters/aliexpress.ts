@@ -2,7 +2,7 @@ import { PAGE_GOTO_TIMEOUT_MS } from '#constants';
 import { getPage } from '#lib/browser';
 import type { Adapter } from '#types';
 
-const PRICE_BLOCK_SELECTOR = '[class*="HazeProductPrice"]';
+const PRICE_BLOCK_SELECTOR = '[class*="ProductPrice"]';
 const PRICE_WAIT_MS = 25_000;
 const PRICE_RE = /\d[\d\s]{0,12}₽/;
 const UNAVAILABLE_RE = /нет в наличии|товар (недоступен|закончился|не найден)/i;
